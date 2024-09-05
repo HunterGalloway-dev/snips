@@ -16,25 +16,33 @@ const Post = () => {
 
   return (
     <div className="flex justify-center items-center">
-      <form className="flex flex-col items-center" onSubmit={handleSubmit}>
-        <CmdInput
-          value=""
-          name="name"
-          placeholder="Command Name"
-          isDisabled={false}
-        />
-        <CmdInput
-          value=""
-          name="command"
-          placeholder="Enter command here..."
-          isDisabled={false}
-        />
-        <button
-          type="submit"
-          className="bg-black p-3 rounded-lg outline-2 outline-cgreen-400 font-extrabold"
-        >
-          Add Command
-        </button>
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col items-center w-full"
+      >
+        <label className="form-control w-full max-w-xs">
+          <div className="label">
+            <span className="label-text text-accent">Command Name</span>
+          </div>
+          <input
+            type="text"
+            name="name"
+            placeholder="Type here"
+            className="input input-bordered w-full"
+          />
+        </label>
+        <label className="form-control mb-3 w-96">
+          <div className="label">
+            <span className="label-text">Your bio</span>
+          </div>
+          <textarea
+            name="command"
+            className="textarea textarea-bordered h-24"
+            placeholder="Command..."
+          ></textarea>
+        </label>
+
+        <button className="btn btn-outline btn-accent">Post</button>
       </form>
     </div>
   );

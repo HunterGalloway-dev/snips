@@ -10,19 +10,20 @@ interface CmdPostProps {
 
 const Cmd = ({ cmdPost }: CmdPostProps) => {
   return (
-    <div className="flex flex-col justify-center p-3 mb-2 rounded-md w-full">
-      <p className="font-medium text-xl text-left w-full mb-1">
-        {cmdPost.name}
-      </p>
+    <div>
+      <div className="mockup-code">
+        <pre data-prefix="" className="bg-accent text-base text-black">
+          <code>{cmdPost.name}</code>
+        </pre>
+        {cmdPost.command.split("\n").map((line, i) => (
+          <pre data-prefix="$" key={i}>
+            <code>{line}</code>
+          </pre>
+        ))}
+      </div>
       <p className="italic text-gray-400 text-xs">
         {cmdPost.createdAt.toLocaleString()} {cmdPost.user.name}
       </p>
-      <CmdInput
-        value={cmdPost.command}
-        isDisabled={true}
-        name="name"
-        placeholder=""
-      />
     </div>
   );
 };

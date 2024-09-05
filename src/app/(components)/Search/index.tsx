@@ -32,12 +32,15 @@ const Search = () => {
       onSubmit={onSearch}
       className="relative flex flex-1 flex-shrink-0 mb-6"
     >
-      <input
-        name="search"
-        className="block w-96 rounded-full outline-none py-1 pl-10 text-lg  bg-dark-200 hover:bg-black focus:bg-black"
-        placeholder="Search Commands..."
-      />
-      <SearchIcon className="w-5 h-5 absolute left-3 top-2" />
+      <label className="input input-bordered flex items-center gap-2">
+        <input
+          type="text"
+          name="search"
+          className="grow"
+          placeholder="Search Snips"
+        />
+        <SearchIcon className="w-4 h-4" />
+      </label>
     </form>
   );
 };

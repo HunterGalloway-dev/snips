@@ -1,81 +1,66 @@
 "use client";
 
-import { Home, LucideIcon, PlusCircleIcon } from "lucide-react";
+import { Home, Icon, LucideIcon, PlusCircleIcon } from "lucide-react";
 import { Session } from "next-auth";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import React from "react";
-
-interface NavbarLinkProps {
-  href: string;
-  icon: LucideIcon;
-  label: string;
-}
-
-const NavbarLink = ({ href, icon: Icon, label }: NavbarLinkProps) => {
-  const pathname = usePathname();
-  const isActive = pathname === href;
-
-  return (
-    <Link href={href}>
-      <div className={`cursor-pointer flex items-center justify-start`}>
-        <Icon className="w-5 h-5 !text-green-400" />
-        <span className="font-medium text-white ml-2">{label}</span>
-      </div>
-    </Link>
-  );
-};
-
-interface AuthSectionProps {
-  session: Session | null;
-}
-
-const AuthSection = ({ session }: AuthSectionProps) => {
-  if (session) {
-    return (
-      <>
-        <Image
-          src={session.user?.image ?? ""}
-          alt="Profile"
-          width={30}
-          height={30}
-          className="rounded-full h-full object-cover"
-        />
-        {session.user?.name}
-        <button
-          className="bg-black p-3 rounded-lg border-b-2 border-cgreen-400"
-          onClick={() => signOut()}
-        >
-          Sign Out
-        </button>
-      </>
-    );
-  } else {
-    return (
-      <button
-        className="bg-black p-3 rounded-lg border-b-2 border-cgreen-400"
-        onClick={() => signIn()}
-      >
-        Sign In
-      </button>
-    );
-  }
-};
 
 const Navbar = () => {
   const { data: session } = useSession();
+  if (!session) {
+    redirect("/snips");
+  }
+  const id = session.user!.id!;
+
+  console.log(id);
 
   return (
-    <div className="flex justify-between items-center w-full mb-7 border-b-2 border-green-700 px-5 py-5">
-      <div className="flex justify-between items-center gap-5">
-        <NavbarLink href="/snips" icon={Home} label="Snips" />
-        <NavbarLink href="/addCmd" icon={PlusCircleIcon} label="Post" />
+    <div className="navbar bg-base-100 border-b-2 border-accent mb-5">
+      <div className="flex-1">
+        <Link href={"/snips"} className="btn btn-ghost text-xl">
+          Snips
+        </Link>
       </div>
-
-      <div className="flex justify-between items-center gap-5">
-        <AuthSection session={session} />
+      <div className="flex-none gap-2">
+        <div className="dropdown dropdown-end">
+          <div
+            tabIndex={0}
+            role="button"
+            className="btn btn-ghost btn-circle avatar"
+          >
+            <div className="w-10 rounded-full">
+              <Image
+                src={session.user?.image ?? ""}
+                alt="Profile"
+                width={100}
+                height={100}
+                className="rounded-full h-full object-cover"
+              />
+            </div>
+          </div>
+          <ul
+            tabIndex={0}
+            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+          >
+            <li>
+              <a className="justify-between"></a>
+              <Link href={`/snips/user/${id}`}>
+                Profile
+                <span className="badge">New</span>
+              </Link>
+            </li>
+            <li>
+              <button
+                onClick={() => signOut({ callbackUrl: "/", redirect: true })}
+              >
+                Logout
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );

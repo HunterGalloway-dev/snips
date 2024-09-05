@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import prisma from "../db";
 import { redirect, usePathname, useSearchParams } from "next/navigation";
 import Search from "../(components)/Search";
+import CmdList from "../(components)/CmdList";
 
 const Snips = async ({
   params,
@@ -42,15 +43,8 @@ const Snips = async ({
   });
 
   return (
-    <div className="flex justify-center flex-col items-center w-screen">
-      <Search />
-      <ul className="w-1/2">
-        {cmdPosts.map((cmdPost) => (
-          <li className="w-full" key={cmdPost.id}>
-            <Cmd cmdPost={cmdPost} />
-          </li>
-        ))}
-      </ul>
+    <div>
+      <CmdList cmdPosts={cmdPosts} />
     </div>
   );
 };

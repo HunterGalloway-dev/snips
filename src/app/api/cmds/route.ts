@@ -1,22 +1,11 @@
 import prisma from "@/app/db";
-import { getServerSession, unstable_getServerSession } from "next-auth";
+import { auth } from "@/auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const session = await getServerSession();
+  const session = await auth();
 
-  if (!session) {
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
-  }
-
-  const prismaUser = await prisma.user.findUnique({
-    where: { email: session.user?.email! },
-  });
-
-  if (!prismaUser) {
+  if (!session?.user) {
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
@@ -31,7 +20,7 @@ export async function POST(req: NextRequest) {
     data: {
       name: name.toString(),
       command: command.toString(),
-      userId: prismaUser.id,
+      userId: session.user.id!,
     },
   });
 

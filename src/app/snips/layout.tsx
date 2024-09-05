@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { getServerSession } from "next-auth";
 import SessionProvider from "@/app/(components)/SessionProvider";
 import Navbar from "../(components)/Navbar";
 import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,10 +17,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession();
+  const session = await auth();
 
   if (!session) {
-    redirect("/api/auth/signin");
+    redirect("/");
   }
   return (
     <SessionProvider session={session}>
