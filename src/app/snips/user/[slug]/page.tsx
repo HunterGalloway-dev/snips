@@ -31,6 +31,12 @@ const Profile = async ({
     };
   }
 
+  const user = await prisma.user.findFirst({
+    where: {
+      id: params.slug,
+    },
+  });
+
   const cmdPosts = await prisma.cmdPost.findMany({
     where: {
       OR: [
@@ -87,7 +93,7 @@ const Profile = async ({
             <div className="avatar">
               <div className="w-16 rounded-full">
                 <Image
-                  src={session?.user?.image ?? ""}
+                  src={user?.image ?? ""}
                   alt="Profile"
                   width={100}
                   height={100}
@@ -95,7 +101,7 @@ const Profile = async ({
               </div>
             </div>
           </div>
-          <div className="stat-value">{session?.user?.name}</div>
+          <div className="stat-value">{user?.name}</div>
         </div>
       </div>
 
