@@ -1,6 +1,12 @@
 "use client";
 
-import { Home, Icon, LucideIcon, PlusCircleIcon } from "lucide-react";
+import {
+  Home,
+  Icon,
+  LucideIcon,
+  PlusCircleIcon,
+  SquareScissors,
+} from "lucide-react";
 import { Session } from "next-auth";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
@@ -19,6 +25,7 @@ const Navbar = () => {
     <div className="navbar bg-base-100 border-b-2 border-accent mb-5">
       <div className="flex-1">
         <Link href={"/snips"} className="btn btn-ghost text-xl">
+          <SquareScissors />
           Snips
         </Link>
       </div>

@@ -1,4 +1,6 @@
 import { signIn } from "@/auth";
+import { SquareScissors } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
 type Props = {};
@@ -8,7 +10,10 @@ const LandingPage = (props: Props) => {
     <div className="w-full h-screen">
       <div className="navbar fixed bg-base-100">
         <div className="navbar-start">
-          <a className="btn btn-ghost text-xl">Snips</a>
+          <a className="btn btn-ghost text-xl">
+            <SquareScissors />
+            Snips
+          </a>
         </div>
         <div className="navbar-end">
           <form
@@ -42,7 +47,21 @@ const LandingPage = (props: Props) => {
             <h2 className="py-6 text-xl text-base-content">
               Save, Share, and Search Helpful Snippets
             </h2>
-            <button className="btn btn-accent">Get Started</button>
+
+            <form
+              action={async () => {
+                "use server";
+                try {
+                  await signIn("github", { redirectTo: "/snips" });
+                } catch (error) {
+                  throw error;
+                }
+              }}
+            >
+              <button className="btn btn-accent" type="submit">
+                Start Snipping
+              </button>
+            </form>
           </div>
           <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl animate-[slide_1s_ease-in-out_1]">
             <div className="mockup-code text-xl w-96 ">
