@@ -67,7 +67,7 @@ const Cmd = ({ cmdPost }: CmdPostProps) => {
 
   return (
     <div>
-      <div className="mockup-code py-4">
+      <div className="mockup-code py-4 lg:text-lg md:text-base sm:text-xs">
         <pre data-prefix="" className="bg-accent text-base-100">
           <code>{cmdPost.name}</code>
         </pre>

@@ -28,9 +28,9 @@ const CmdList = ({ cmdPosts, userList }: CmdListProps) => {
           </Link>
         </ConditionalRender>
       </div>
-      <ul className="w-1/2">
+      <ul className="lg:w-1/2 md:w-1/2 sm:w-96 space-y-5">
         {cmdPosts.map((cmdPost) => (
-          <li className="mb-3" key={cmdPost.id}>
+          <li key={cmdPost.id}>
             <Cmd cmdPost={cmdPost} />
           </li>
         ))}
