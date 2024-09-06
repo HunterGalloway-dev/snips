@@ -39,12 +39,13 @@ const Snips = async ({
     },
     include: {
       user: true,
+      likes: true,
     },
   });
 
   return (
-    <div>
-      <CmdList cmdPosts={cmdPosts} />
+    <div className="w-full">
+      <CmdList cmdPosts={cmdPosts} userList={false} />
     </div>
   );
 };

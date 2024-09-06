@@ -4,25 +4,31 @@ import { Prisma } from "@prisma/client";
 import Search from "../Search";
 import { Plus } from "lucide-react";
 import Link from "next/link";
+import ConditionalRender from "../ConditionaRender";
 
-type CmdPostWithUser = Prisma.CmdPostGetPayload<{ include: { user: true } }>;
+type CmdPostWithUser = Prisma.CmdPostGetPayload<{
+  include: { user: true; likes: true };
+}>;
 
 interface CmdListProps {
   cmdPosts: CmdPostWithUser[];
+  userList: boolean;
 }
 
-const CmdList = ({ cmdPosts }: CmdListProps) => {
+const CmdList = ({ cmdPosts, userList }: CmdListProps) => {
   return (
-    <div className="flex justify-center flex-col items-center">
+    <div className="flex justify-center flex-col items-center w-full">
       <div className="flex">
         <Search />
-        <Link href="/snips/post">
-          <button className="btn btn-circle btn-outline btn-accent ml-3">
-            <Plus />
-          </button>
-        </Link>
+        <ConditionalRender show={!userList}>
+          <Link href="/snips/post">
+            <button className="btn btn-circle btn-outline btn-accent ml-3">
+              <Plus />
+            </button>
+          </Link>
+        </ConditionalRender>
       </div>
-      <ul>
+      <ul className="w-1/2">
         {cmdPosts.map((cmdPost) => (
           <li className="mb-3" key={cmdPost.id}>
             <Cmd cmdPost={cmdPost} />

@@ -3,6 +3,8 @@ import prisma from "@/app/db";
 import { auth } from "@/auth";
 import React from "react";
 import Image from "next/image";
+import { Heart, SquareScissors } from "lucide-react";
+import SnipsTab from "@/app/(components)/SnipsTab";
 
 type Props = {};
 
@@ -14,7 +16,29 @@ const Profile = async ({
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   let search = searchParams["search"]?.toString() ?? "";
+  let tab = searchParams["tab"]?.toString() ?? "";
   const session = await auth();
+
+  const test = await prisma.cmdPost.findMany({
+    where: {
+      likes: {
+        some: {
+          userId: params.slug,
+        },
+      },
+    },
+  });
+  let sp = {};
+
+  if (tab == "mylikes") {
+    sp = {
+      likes: {
+        some: {
+          userId: params.slug,
+        },
+      },
+    };
+  }
 
   const cmdPosts = await prisma.cmdPost.findMany({
     where: {
@@ -38,6 +62,7 @@ const Profile = async ({
             id: params.slug,
           },
         },
+        sp,
       ],
     },
     orderBy: {
@@ -45,6 +70,7 @@ const Profile = async ({
     },
     include: {
       user: true,
+      likes: true,
     },
   });
 
@@ -54,9 +80,15 @@ const Profile = async ({
     },
   });
 
+  const likeCnt = await prisma.postLike.count({
+    where: {
+      userId: params.slug,
+    },
+  });
+
   return (
-    <div className="flex justify-center flex-col items-center">
-      <div className="stats mb-5">
+    <div className="flex justify-center flex-col items-center space-y-5">
+      <div className="stats ">
         <div className="stat">
           <div className="stat-figure text-secondary">
             <div className="avatar">
@@ -72,14 +104,28 @@ const Profile = async ({
           </div>
           <div className="stat-value">{session?.user?.name}</div>
         </div>
+      </div>
+
+      <div className="stats shadow ">
         <div className="stat">
-          <div className="stat-figure text-secondary"></div>
-          <div className="stat-title">Snips</div>
-          <div className="stat-value text-accent">{snipCnt}</div>
-          <div className="stat-desc"># of snips</div>
+          <div className="stat-figure text-primary">
+            <SquareScissors />
+          </div>
+          <div className="stat-title">Total Snips</div>
+          <div className="stat-value text-primary">{snipCnt}</div>
+        </div>
+
+        <div className="stat">
+          <div className="stat-figure text-secondary">
+            <Heart className="fill-secondary" />
+          </div>
+          <div className="stat-title">Total Likes</div>
+          <div className="stat-value text-secondary">{likeCnt}</div>
         </div>
       </div>
-      <CmdList cmdPosts={cmdPosts} />
+      <SnipsTab />
+
+      <CmdList cmdPosts={cmdPosts} userList={true} />
     </div>
   );
 };

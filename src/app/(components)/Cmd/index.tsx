@@ -1,20 +1,30 @@
+"use client";
+
 import { CmdPost, Prisma } from "@prisma/client";
-import React from "react";
+import React, { useState } from "react";
 import CmdInput from "../CmdInput";
 import { Bookmark, Edit, Heart, Trash } from "lucide-react";
 import Link from "next/link";
 import { Session } from "inspector/promises";
 import { auth } from "@/auth";
 import ConditionalRender from "../ConditionaRender";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
-type CmdPostWithUser = Prisma.CmdPostGetPayload<{ include: { user: true } }>;
+type CmdPostWithUser = Prisma.CmdPostGetPayload<{
+  include: { user: true; likes: true };
+}>;
 
 interface CmdPostProps {
   cmdPost: CmdPostWithUser;
 }
 
-const Cmd = async ({ cmdPost }: CmdPostProps) => {
-  const session = await auth();
+const Cmd = ({ cmdPost }: CmdPostProps) => {
+  const router = useRouter();
+  const { data: session } = useSession();
+
+  const liked = cmdPost.likes.some((e) => e.userId == session!.user!.id);
+
   const getTimeSince = (date: Date) => {
     const now = Date.now();
 
@@ -45,6 +55,16 @@ const Cmd = async ({ cmdPost }: CmdPostProps) => {
     return `${monthDiff}mo`;
   };
 
+  const onLike = async () => {
+    const result = await fetch(`/api/cmds/${cmdPost.id}`, {
+      method: "POST",
+    });
+
+    if (result.status == 200) {
+      router.refresh();
+    }
+  };
+
   return (
     <div>
       <div className="mockup-code py-4">
@@ -59,8 +79,12 @@ const Cmd = async ({ cmdPost }: CmdPostProps) => {
         <div className="flex px-2 mt-2">
           <div className="flex-1">
             <div className="tooltip" data-tip="Like">
-              <button className="">
-                <Heart size={20} className="text-accent" />
+              <button className="" onClick={onLike}>
+                <Heart
+                  size={20}
+                  className={`text-accent ${liked ? "fill-accent" : ""}`}
+                />
+                {cmdPost.likes.length}
               </button>
             </div>
           </div>

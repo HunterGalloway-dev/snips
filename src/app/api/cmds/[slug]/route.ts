@@ -46,3 +46,39 @@ export async function DELETE(
 
   return Response.json({ cmdPost }, { status: 200 });
 }
+
+export async function POST(
+  request: Request,
+  { params }: { params: { slug: string } }
+) {
+  const id = Number(params.slug);
+  const session = await auth();
+
+  if (!session?.user || !id) {
+    return Response.json({ error: "Internal Server Error" }, { status: 500 });
+  }
+
+  let like = await prisma.postLike.findFirst({
+    where: {
+      userId: session.user.id,
+      cmdPostId: id,
+    },
+  });
+
+  if (!like) {
+    like = await prisma.postLike.create({
+      data: {
+        userId: session.user.id!,
+        cmdPostId: id,
+      },
+    });
+  } else {
+    like = await prisma.postLike.delete({
+      where: {
+        id: like.id,
+      },
+    });
+  }
+
+  return Response.json("", { status: 200 });
+}

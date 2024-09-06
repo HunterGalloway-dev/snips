@@ -37,7 +37,7 @@ const Search = () => {
           type="text"
           name="search"
           className="grow"
-          placeholder="Search Snips"
+          placeholder="Search Snips..."
         />
         <SearchIcon className="w-4 h-4" />
       </label>

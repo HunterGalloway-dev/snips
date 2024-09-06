@@ -82,16 +82,20 @@ const PostForm = ({ slug }: { slug: string }) => {
         </label>
 
         <div className="flex space-x-4">
-          <button className="btn btn-outline btn-accent">
+          <button type="submit" className="btn btn-outline btn-accent">
             {editMode ? "Save" : "Post"}
           </button>
+          <ConditionalRender show={editMode}>
+            <button
+              type="button"
+              className="btn btn-outline btn-warning"
+              onClick={onDelete}
+            >
+              Delete
+            </button>
+          </ConditionalRender>
         </div>
       </form>
-      <ConditionalRender show={editMode}>
-        <button className="btn btn-outline btn-warning" onClick={onDelete}>
-          Delete
-        </button>
-      </ConditionalRender>
     </div>
   );
 };

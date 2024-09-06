@@ -22,6 +22,8 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
+  likes PostLike[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -29,13 +31,22 @@ model User {
 }
 
 model CmdPost {
-  id        Int      @id @default(autoincrement())
+  id        Int        @id @default(autoincrement())
   name      String
   command   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  likes     PostLike[]
+  user      User       @relation(fields: [userId], references: [id])
+}
+
+model PostLike {
+  id        Int     @id @default(autoincrement())
+  User      User    @relation(fields: [userId], references: [id])
+  CmdPost   CmdPost @relation(fields: [cmdPostId], references: [id])
+  cmdPostId Int
+  userId    String
 }
 
 model Account {
