@@ -9,28 +9,14 @@ const LandingPage = (props: Props) => {
   return (
     <div className="w-full h-screen">
       <div className="navbar fixed bg-base-100">
-        <div className="navbar-start">
-          <a className="btn btn-ghost text-xl">
+        <div className="navbar-start"></div>
+        <div className="navbar-center">
+          <Link className="btn btn-ghost text-xl" href={"/snips"}>
             <SquareScissors />
             Snips
-          </a>
+          </Link>
         </div>
-        <div className="navbar-end">
-          <form
-            action={async () => {
-              "use server";
-              try {
-                await signIn("github", { redirectTo: "/snips" });
-              } catch (error) {
-                throw error;
-              }
-            }}
-          >
-            <button className="btn btn-accent" type="submit">
-              Sign In
-            </button>
-          </form>
-        </div>
+        <div className="navbar-end"></div>
       </div>
       <div className="hero bg-base-200 min-h-screen">
         <div className="hero-content flex-col lg:flex-row-reverse">
