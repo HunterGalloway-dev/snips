@@ -97,8 +97,8 @@ const Cmd = ({ cmdPost }: CmdPostProps) => {
           </ConditionalRender>
         </div>
         <div className="mt-2 w-full flex justify-center">
-          <Link href={`/snips/user/${session?.user?.id}`}>
-            <p className="link link-accent">/{session?.user?.name}</p>
+          <Link href={`/snips/user/${cmdPost.userId}`}>
+            <p className="link link-accent">/{cmdPost.user.name}</p>
           </Link>
           <p className="ml-2">{getTimeSince(cmdPost.createdAt)} ago</p>
         </div>
