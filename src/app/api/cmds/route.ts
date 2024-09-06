@@ -1,5 +1,6 @@
 import prisma from "@/app/db";
 import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -23,6 +24,7 @@ export async function POST(req: NextRequest) {
       userId: session.user.id!,
     },
   });
+  console.log(cmdPost);
 
-  return NextResponse.json({ cmdPost }, { status: 200 });
+  return NextResponse.json({ cmdPost }, { status: 201 });
 }

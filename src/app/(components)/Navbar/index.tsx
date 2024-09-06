@@ -15,8 +15,6 @@ const Navbar = () => {
   }
   const id = session.user!.id!;
 
-  console.log(id);
-
   return (
     <div className="navbar bg-base-100 border-b-2 border-accent mb-5">
       <div className="flex-1">
