@@ -1,5 +1,5 @@
 import { signIn } from "@/auth";
-import { SquareScissors } from "lucide-react";
+import { Github, SquareScissors } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -16,7 +16,15 @@ const LandingPage = (props: Props) => {
             Snips
           </Link>
         </div>
-        <div className="navbar-end"></div>
+        <div className="navbar-end">
+          <Link
+            className="btn btn-ghost text-xl"
+            href={"https://github.com/HunterGalloway-dev/snips"}
+            target="_blank"
+          >
+            <Github />
+          </Link>
+        </div>
       </div>
       <div className="hero bg-base-200 min-h-screen">
         <div className="hero-content flex-col lg:flex-row-reverse">
@@ -45,7 +53,8 @@ const LandingPage = (props: Props) => {
               }}
             >
               <button className="btn btn-accent" type="submit">
-                Start Snipping
+                <Github />
+                Sign In With Github
               </button>
             </form>
           </div>
