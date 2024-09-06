@@ -68,7 +68,7 @@ const Cmd = ({ cmdPost }: CmdPostProps) => {
   return (
     <div>
       <div className="mockup-code py-4">
-        <pre data-prefix="" className="bg-accent text-base text-black">
+        <pre data-prefix="" className="bg-accent text-base-100">
           <code>{cmdPost.name}</code>
         </pre>
         {cmdPost.command.split("\n").map((line, i) => (
