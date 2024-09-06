@@ -21,6 +21,8 @@ const Profile = async ({
 
   let sp = {};
 
+  console.log(params.slug);
+
   if (tab == "mylikes") {
     sp = {
       likes: {
@@ -29,7 +31,22 @@ const Profile = async ({
         },
       },
     };
-  }
+  } else {
+    sp = {
+      userId: params.slug,
+    };
+  } // Make likes work for not only my snips
+
+  const cnt = await prisma.cmdPost.count({
+    where: {
+      likes: {
+        some: {
+          userId: params.slug,
+        },
+      },
+    },
+  });
+  console.log(cnt);
 
   const user = await prisma.user.findFirst({
     where: {
@@ -53,14 +70,7 @@ const Profile = async ({
           },
         },
       ],
-      AND: [
-        {
-          user: {
-            id: params.slug,
-          },
-        },
-        sp,
-      ],
+      AND: [sp],
     },
     orderBy: {
       createdAt: "desc",
@@ -77,10 +87,12 @@ const Profile = async ({
     },
   });
 
-  const likeCnt = await prisma.postLike.count({
+  const likeCnt = await prisma.cmdPost.count({
     where: {
-      CmdPost: {
-        userId: params.slug,
+      likes: {
+        some: {
+          userId: params.slug,
+        },
       },
     },
   });
