@@ -19,15 +19,6 @@ const Profile = async ({
   let tab = searchParams["tab"]?.toString() ?? "";
   const session = await auth();
 
-  const test = await prisma.cmdPost.findMany({
-    where: {
-      likes: {
-        some: {
-          userId: params.slug,
-        },
-      },
-    },
-  });
   let sp = {};
 
   if (tab == "mylikes") {
@@ -82,7 +73,9 @@ const Profile = async ({
 
   const likeCnt = await prisma.postLike.count({
     where: {
-      userId: params.slug,
+      CmdPost: {
+        userId: params.slug,
+      },
     },
   });
 
