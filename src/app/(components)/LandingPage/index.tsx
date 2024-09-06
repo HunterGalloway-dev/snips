@@ -29,8 +29,8 @@ const LandingPage = (props: Props) => {
       <div className="hero bg-base-200 min-h-screen">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="text-center">
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">
-              Get Started Faster
+            <h1 className="text-6xl font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">
+              Build Faster
             </h1>
             <h1 className="text-5xl font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">
               Without Remebering
